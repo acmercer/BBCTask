@@ -5,6 +5,8 @@
         font-size: 24px;
         padding: 10px 24px;
         float:left;
+        background-color: lightsteelblue;
+        border-color: black;
     }
 </style>
 <head>
@@ -17,31 +19,40 @@
     <button onclick="showArticle1()">Article 1</button>
     <button onclick="showArticle2()">Article 2</button>
     <button onclick="showArticle3()">Article 3</button>
+    <button onclick="ranking()">Rank Articles</button>
 </div> <br /> <br />
-<form method="get">
-<div id="article-1" style="display:none">
+<form method="get" id="article-1" style="display:none">
     <h1 id="title"></h1>
-    <p id="textBody1"></p>
+    <p id="textBody"></p>
     <div id="imgPlace"></div>
-</div></form>
+</form>
 <p></p>
-<form method="get">
-<div id="article-2" style="display:none">
+<form method="get" id="article-2" style="display:none">
     <h1 id="title2"></h1>
     <p id="textBody2"></p>
     <div id="imgPlace2"></div>
-</div></form>
-<form method="get">
-<div id="article-3" style="display:none">
+</form>
+<form method="get" id="article-3" style="display:none">
     <h1 id="title3"></h1>
     <p id="textBody3"></p>
     <div id="imgPlace3"></div>
-</div></form>
+</form>
+<form method="post" id="rank" style="display:none">
+    <h1> Enter an article number in each box</h1>
+    <label for="first">Best article:</label>
+    <input type="text" id="first" name="first" style="margin-left: 10px"><br><br>
+    <input type="text" id="second" name="second" style="margin-left: 90px"><br><br>
+    <input type="text" id="third" name="third" style="margin-left: 90px"><br><br>
+    <input type="text" id="fourth" name="fourth" style="margin-left: 90px"><br><br>
+    <label for="fifth"> Worst article:</label>
+    <input type="text" id="fifth" name="fifth"><br><br>
+    <input type="submit" value="Submit">
+</form>
 <script type="application/javascript">
     let article1 = new Request('article-1.json');
     let article2 = new Request('article-2.json');
     let article3 = new Request('article-3.json');
-    var textBody1 ='', textBody2='', textBody3='';
+    var textBody1 ='', textBody2='', textBody3='', textBody4, textBody5;
     fetch(article1)
         .then(function(response){
             return response.json();
@@ -60,7 +71,7 @@
                 }
             }
             document.getElementById('title').innerHTML = title;
-            document.getElementById('textBody1').innerHTML = textBody1;
+            document.getElementById('textBody').innerHTML = textBody1;
             var imgType = document.createElement("IMG");
             imgType.src = img;
             imgType.style.width = width;
@@ -82,17 +93,17 @@
                         textBody2 += '<p>' + data1.body[i].model.text + '</p>';
                     }}
                 if (data1.body[i].type == 'image'){
-                    var img = data1.body[i].model.url;
-                    var height = data1.body[i].model.height;
-                    var width = data1.body[i].model.width;
+                    var img2 = data1.body[i].model.url;
+                    var height2 = data1.body[i].model.height;
+                    var width2 = data1.body[i].model.width;
                 }
                 }
             document.getElementById('title2').innerHTML = title2;
             document.getElementById('textBody2').innerHTML = textBody2;
             var imgType = document.createElement("IMG");
-            imgType.src = img;
-            imgType.style.width = width;
-            imgType.style.height = height;
+            imgType.src = img2;
+            imgType.style.width = width2;
+            imgType.style.height = height2;
             document.getElementById('imgPlace2').append(imgType);
         })
         .catch(function (err) {
@@ -130,27 +141,43 @@
         });
     function showArticle1(){ // Toggles the display of the first article
         var x = document.getElementById("article-1");
-        if (x.style.display === "none") {
-            x.style.display = "block";
-        } else {
-            x.style.display = "none";
-        }
+        x.style.display = "block";
+        var y = document.getElementById("article-2"); // Hides display of others
+        y.style.display = "none";
+        var z = document.getElementById("article-3");
+        z.style.display = "none";
+        var w = document.getElementById("rank");
+        w.style.display = "none";
     }
-    function showArticle2(){ // Toggles the display of the second article
+    function showArticle2(){ // Displays the second article
         var x = document.getElementById("article-2");
-        if (x.style.display === "none") {
-            x.style.display = "block";
-        } else {
-            x.style.display = "none";
-        }
+        x.style.display = "block";
+        var y = document.getElementById("article-1"); // Hides display of others
+        y.style.display = "none";
+        var z = document.getElementById("article-3");
+        z.style.display = "none";
+        var w = document.getElementById("rank");
+        w.style.display = "none";
     }
-    function showArticle3(){ // Toggles the display of the third article
+    function showArticle3(){ // Displays third article
         var x = document.getElementById("article-3");
-        if (x.style.display === "none") {
-            x.style.display = "block";
-        } else {
-            x.style.display = "none";
-        }
+        x.style.display = "block";
+        var w = document.getElementById("rank"); // Hides display of others
+        w.style.display = "none";
+        var y = document.getElementById("article-1");
+        y.style.display = "none";
+        var z = document.getElementById("article-2");
+        z.style.display = "none";
+    }
+    function ranking(){ // Displays ranking screen
+        var w = document.getElementById("rank");
+        w.style.display = "block";
+        var x = document.getElementById("article-1"); // Hides display of others
+        x.style.display = "none";
+        var y = document.getElementById("article-2");
+        y.style.display = "none";
+        var z = document.getElementById("article-3");
+        z.style.display = "none";
     }
 </script>
 </body>
