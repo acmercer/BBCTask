@@ -1,20 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
-
+<style>
+    button {
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+        font-size: 24px;
+        padding: 10px 24px;
+    }
+</style>
 <head>
     <meta charset="UTF-8">
     <title> News Article</title>
 </head>
 
 <body>
+<button onclick="showArticle1()">Article 1</button>
+<button onclick="showArticle2()">Article 2</button>
+<div id="article-1" style="display:none">
 <h1 id="title"></h1>
 <p id="textBody1"></p>
-<img id="url1" scr=""/>
+<div id="imgPlace"></div>
+</div>
 <p></p>
+<div id="article-2" style="display:none">
 <h1 id="title2"></h1>
 <p id="textBody2"></p>
+<div id="imgPlace2"></div>
+</div>
 <script type="application/javascript">
-
     let article1 = new Request('article-1.json');
     let article2 = new Request('article-2.json');
     var textBody1 ='';
@@ -24,26 +36,25 @@
             return response.json();
         })
         .then (function(data1){
-            var title = data1.title;
+            var title = data1.title; // Gets the articles title
             for(var i =0; i < data1.body.length;i++){
                 if (data1.body[i].type == 'paragraph'){
                 if (typeof data1.body[i].model.text !== 'undefined') {
-                    textBody1 += '<p>' + data1.body[i].model.text + '</p>';
+                    textBody1 += '<p>' + data1.body[i].model.text + '</p>'; // Adds all the text to one string
                 }}
-                if (data1.body[i].type == 'image'){
+                if (data1.body[i].type == 'image'){ // Gathers the image information
                     var img = data1.body[i].model.url;
                     var height = data1.body[i].model.height;
                     var width = data1.body[i].model.width;
-                    console.log(data1.body[i].model.url);
                 }
             }
             document.getElementById('title').innerHTML = title;
             document.getElementById('textBody1').innerHTML = textBody1;
-            document.getElementById('height').innerHTML = height;
-            document.getElementById('width').innerHTML = width;
-            document.getElementById('url1').src = "https://picsum.photos/640/420/?random";
-            var url1 = document.createElement("<img scr=''" + img + "'/>");
-            document.body.appendChild(url1);
+            var imgType = document.createElement("IMG");
+            imgType.src = img;
+            imgType.style.width = width;
+            imgType.style.height = height;
+            document.getElementById('imgPlace').append(imgType);
         })
         .catch(function (err) {
             console.log('error: ' + err);
@@ -59,23 +70,39 @@
                     if (typeof data1.body[i].model.text !== 'undefined'){
                         textBody2 += '<p>' + data1.body[i].model.text + '</p>';
                         console.log(data1.body[i].model.text);}}
-                if (data1.body[i].type == 'image'){
-                    var img2 = data1.body[i].model.url;
-                    var height2 = data1.body[i].model.height;
-                    var width2 = data1.body[i].model.width;
-                    console.log(data1.body[i].model.url);
+                    if (data1.body[i].type == 'image'){
+                        var img = data1.body[i].model.url;
+                        var height = data1.body[i].model.height;
+                        var width = data1.body[i].model.width;
+                    }
                 }
-            }
             document.getElementById('title2').innerHTML = title2;
             document.getElementById('textBody2').innerHTML = textBody2;
-            document.getElementById('height2').innerHTML = height2;
-            document.getElementById('width2').innerHTML = width2;
-            var url2 = document.createElement("<img scr=''" + img2 + "'/>");
-            document.body.appendChild(url2);
+            var imgType = document.createElement("IMG");
+            imgType.src = img;
+            imgType.style.width = width;
+            imgType.style.height = height;
+            document.getElementById('imgPlace2').append(imgType);
         })
         .catch(function (err) {
             console.log('error: ' + err);
         });
+    function showArticle1(){ // Toggles the display of the first article
+        var x = document.getElementById("article-1");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    }
+    function showArticle2(){ // Toggles the display of the second article
+        var x = document.getElementById("article-2");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    }
 </script>
 </body>
 
