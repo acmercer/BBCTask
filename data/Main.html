@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title> News Article</title>
+</head>
+
+<body>
+<h1 id="title"></h1>
+<p id="textBody1"></p>
+<img id="url1" scr=""/>
+<p></p>
+<h1 id="title2"></h1>
+<p id="textBody2"></p>
+<script type="application/javascript">
+
+    let article1 = new Request('article-1.json');
+    let article2 = new Request('article-2.json');
+    var textBody1 ='';
+    var textBody2='';
+    fetch(article1)
+        .then(function(response){
+            return response.json();
+        })
+        .then (function(data1){
+            var title = data1.title;
+            for(var i =0; i < data1.body.length;i++){
+                if (data1.body[i].type == 'paragraph'){
+                if (typeof data1.body[i].model.text !== 'undefined') {
+                    textBody1 += '<p>' + data1.body[i].model.text + '</p>';
+                }}
+                if (data1.body[i].type == 'image'){
+                    var img = data1.body[i].model.url;
+                    var height = data1.body[i].model.height;
+                    var width = data1.body[i].model.width;
+                    console.log(data1.body[i].model.url);
+                }
+            }
+            document.getElementById('title').innerHTML = title;
+            document.getElementById('textBody1').innerHTML = textBody1;
+            document.getElementById('height').innerHTML = height;
+            document.getElementById('width').innerHTML = width;
+            document.getElementById('url1').src = "https://picsum.photos/640/420/?random";
+            var url1 = document.createElement("<img scr=''" + img + "'/>");
+            document.body.appendChild(url1);
+        })
+        .catch(function (err) {
+            console.log('error: ' + err);
+        });
+    fetch(article2)
+        .then(function(response){
+            return response.json();
+        })
+        .then (function(data1){
+            var title2 = data1.title;
+            for(var i =0; i < data1.body.length;i++){
+                if (data1.body[i].type == 'paragraph'){
+                    if (typeof data1.body[i].model.text !== 'undefined'){
+                        textBody2 += '<p>' + data1.body[i].model.text + '</p>';
+                        console.log(data1.body[i].model.text);}}
+                if (data1.body[i].type == 'image'){
+                    var img2 = data1.body[i].model.url;
+                    var height2 = data1.body[i].model.height;
+                    var width2 = data1.body[i].model.width;
+                    console.log(data1.body[i].model.url);
+                }
+            }
+            document.getElementById('title2').innerHTML = title2;
+            document.getElementById('textBody2').innerHTML = textBody2;
+            document.getElementById('height2').innerHTML = height2;
+            document.getElementById('width2').innerHTML = width2;
+            var url2 = document.createElement("<img scr=''" + img2 + "'/>");
+            document.body.appendChild(url2);
+        })
+        .catch(function (err) {
+            console.log('error: ' + err);
+        });
+</script>
+</body>
+
+</html>
