@@ -2,9 +2,9 @@
 <html lang="en">
 <style>
     button {
-        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
         font-size: 24px;
         padding: 10px 24px;
+        float:left;
     }
 </style>
 <head>
@@ -13,24 +13,35 @@
 </head>
 
 <body>
-<button onclick="showArticle1()">Article 1</button>
-<button onclick="showArticle2()">Article 2</button>
+<div>
+    <button onclick="showArticle1()">Article 1</button>
+    <button onclick="showArticle2()">Article 2</button>
+    <button onclick="showArticle3()">Article 3</button>
+</div> <br /> <br />
+<form method="get">
 <div id="article-1" style="display:none">
-<h1 id="title"></h1>
-<p id="textBody1"></p>
-<div id="imgPlace"></div>
-</div>
+    <h1 id="title"></h1>
+    <p id="textBody1"></p>
+    <div id="imgPlace"></div>
+</div></form>
 <p></p>
+<form method="get">
 <div id="article-2" style="display:none">
-<h1 id="title2"></h1>
-<p id="textBody2"></p>
-<div id="imgPlace2"></div>
-</div>
+    <h1 id="title2"></h1>
+    <p id="textBody2"></p>
+    <div id="imgPlace2"></div>
+</div></form>
+<form method="get">
+<div id="article-3" style="display:none">
+    <h1 id="title3"></h1>
+    <p id="textBody3"></p>
+    <div id="imgPlace3"></div>
+</div></form>
 <script type="application/javascript">
     let article1 = new Request('article-1.json');
     let article2 = new Request('article-2.json');
-    var textBody1 ='';
-    var textBody2='';
+    let article3 = new Request('article-3.json');
+    var textBody1 ='', textBody2='', textBody3='';
     fetch(article1)
         .then(function(response){
             return response.json();
@@ -67,14 +78,14 @@
             var title2 = data1.title;
             for(var i =0; i < data1.body.length;i++){
                 if (data1.body[i].type == 'paragraph'){
-                    if (typeof data1.body[i].model.text !== 'undefined'){
+                    if (typeof data1.body[i].model.text !== 'undefined') {
                         textBody2 += '<p>' + data1.body[i].model.text + '</p>';
-                        console.log(data1.body[i].model.text);}}
-                    if (data1.body[i].type == 'image'){
-                        var img = data1.body[i].model.url;
-                        var height = data1.body[i].model.height;
-                        var width = data1.body[i].model.width;
-                    }
+                    }}
+                if (data1.body[i].type == 'image'){
+                    var img = data1.body[i].model.url;
+                    var height = data1.body[i].model.height;
+                    var width = data1.body[i].model.width;
+                }
                 }
             document.getElementById('title2').innerHTML = title2;
             document.getElementById('textBody2').innerHTML = textBody2;
@@ -83,6 +94,36 @@
             imgType.style.width = width;
             imgType.style.height = height;
             document.getElementById('imgPlace2').append(imgType);
+        })
+        .catch(function (err) {
+            console.log('error: ' + err);
+        });
+    fetch(article3)
+        .then(function(response){
+            return response.json();
+        })
+        .then (function(data1){
+            var title3 = data1.title;
+            for(var i =0; i < data1.body.length;i++){
+                if (data1.body[i].type == 'paragraph'){
+                    if (typeof data1.body[i].model.text !== 'undefined') {
+                        textBody3 += '<p>' + data1.body[i].model.text + '</p>';
+                    }
+                }
+                if (data1.body[i].type == 'image'){
+                    var img = data1.body[i].model.url;
+                    var height = data1.body[i].model.height;
+                    var width = data1.body[i].model.width;
+                    var imgType = document.createElement("IMG");
+                    imgType.src = img;
+                    imgType.style.width = width;
+                    imgType.style.height = height;
+                    document.getElementById('imgPlace2').append(imgType);
+                }
+            }
+            document.getElementById('title3').innerHTML = title3;
+            document.getElementById('textBody3').innerHTML = textBody3;
+
         })
         .catch(function (err) {
             console.log('error: ' + err);
@@ -97,6 +138,14 @@
     }
     function showArticle2(){ // Toggles the display of the second article
         var x = document.getElementById("article-2");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    }
+    function showArticle3(){ // Toggles the display of the third article
+        var x = document.getElementById("article-3");
         if (x.style.display === "none") {
             x.style.display = "block";
         } else {
