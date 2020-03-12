@@ -24,18 +24,15 @@
 <form method="get" id="article-1" style="display:none">
     <h1 id="title"></h1>
     <p id="textBody"></p>
-    <div id="imgPlace"></div>
 </form>
 <p></p>
 <form method="get" id="article-2" style="display:none">
     <h1 id="title2"></h1>
-    <p id="textBody2"></p>
-    <div id="imgPlace2"></div>
+    <div id="textBody2"></div>
 </form>
 <form method="get" id="article-3" style="display:none">
     <h1 id="title3"></h1>
     <p id="textBody3"></p>
-    <div id="imgPlace3"></div>
 </form>
 <form method="post" id="rank" style="display:none">
     <h1> Enter an article number in each box</h1>
@@ -52,7 +49,7 @@
     let article1 = new Request('article-1.json');
     let article2 = new Request('article-2.json');
     let article3 = new Request('article-3.json');
-    var textBody1 ='', textBody2='', textBody3='', textBody4, textBody5;
+    var textBody1 ='', textBody2='', textBody3='';
     fetch(article1)
         .then(function(response){
             return response.json();
@@ -60,6 +57,10 @@
         .then (function(data1){
             var title = data1.title; // Gets the articles title
             for(var i =0; i < data1.body.length;i++){
+                if (data1.body[i].type == 'heading'){
+                    if (typeof data1.body[i].model.text !== 'undefined') {
+                        textBody1 += '<h3>' + data1.body[i].model.text + '</h3>';
+                    }}
                 if (data1.body[i].type == 'paragraph'){
                 if (typeof data1.body[i].model.text !== 'undefined') {
                     textBody1 += '<p>' + data1.body[i].model.text + '</p>'; // Adds all the text to one string
@@ -68,15 +69,20 @@
                     var img = data1.body[i].model.url;
                     var height = data1.body[i].model.height;
                     var width = data1.body[i].model.width;
+                    var alt = data1.body[i].model.altText;
+                    textBody1 += '<img src="'+img+'" width="'+width+'" height="'+height+'" alt="'+alt+'"/>';
+                }
+                if (data1.body[i].type == 'list'){
+                    if (typeof data1.body[i].model.items !== 'undefined'){
+                        for (var x=0; x < data1.body[i].model.items.length;x++){
+                        var items = '';
+                        items += data1.body[i].model.items[x];
+                        console.log(items);}
+                    }
                 }
             }
             document.getElementById('title').innerHTML = title;
             document.getElementById('textBody').innerHTML = textBody1;
-            var imgType = document.createElement("IMG");
-            imgType.src = img;
-            imgType.style.width = width;
-            imgType.style.height = height;
-            document.getElementById('imgPlace').append(imgType);
         })
         .catch(function (err) {
             console.log('error: ' + err);
@@ -88,23 +94,25 @@
         .then (function(data1){
             var title2 = data1.title;
             for(var i =0; i < data1.body.length;i++){
+                if (data1.body[i].type == 'heading'){
+                    if (typeof data1.body[i].model.text !== 'undefined') {
+                        textBody2 += '<h3>' + data1.body[i].model.text + '</h3>';
+                    }}
                 if (data1.body[i].type == 'paragraph'){
                     if (typeof data1.body[i].model.text !== 'undefined') {
                         textBody2 += '<p>' + data1.body[i].model.text + '</p>';
+
                     }}
                 if (data1.body[i].type == 'image'){
-                    var img2 = data1.body[i].model.url;
-                    var height2 = data1.body[i].model.height;
-                    var width2 = data1.body[i].model.width;
+                    var img = data1.body[i].model.url;
+                    var height = data1.body[i].model.height;
+                    var width = data1.body[i].model.width;
+                    var alt= data1.body[i].model.altText;
+                    textBody2 += '<img src="'+img+'" width="'+width+'" height="'+height+'" alt="'+alt+'"/>';
                 }
                 }
             document.getElementById('title2').innerHTML = title2;
             document.getElementById('textBody2').innerHTML = textBody2;
-            var imgType = document.createElement("IMG");
-            imgType.src = img2;
-            imgType.style.width = width2;
-            imgType.style.height = height2;
-            document.getElementById('imgPlace2').append(imgType);
         })
         .catch(function (err) {
             console.log('error: ' + err);
@@ -116,6 +124,10 @@
         .then (function(data1){
             var title3 = data1.title;
             for(var i =0; i < data1.body.length;i++){
+                if (data1.body[i].type == 'heading'){
+                    if (typeof data1.body[i].model.text !== 'undefined') {
+                        textBody3 += '<h3>' + data1.body[i].model.text + '</h3>';
+                    }}
                 if (data1.body[i].type == 'paragraph'){
                     if (typeof data1.body[i].model.text !== 'undefined') {
                         textBody3 += '<p>' + data1.body[i].model.text + '</p>';
@@ -125,11 +137,8 @@
                     var img = data1.body[i].model.url;
                     var height = data1.body[i].model.height;
                     var width = data1.body[i].model.width;
-                    var imgType = document.createElement("IMG");
-                    imgType.src = img;
-                    imgType.style.width = width;
-                    imgType.style.height = height;
-                    document.getElementById('imgPlace2').append(imgType);
+                    var alt= data1.body[i].model.altText;
+                    textBody3 += '<img src="'+img+'" width="'+width+'" height="'+height+'" alt="'+alt+'"/>';
                 }
             }
             document.getElementById('title3').innerHTML = title3;
