@@ -23,7 +23,7 @@
 </div> <br /> <br />
 <form method="get" id="article-1" style="display:none">
     <h1 id="title"></h1>
-    <p id="textBody"></p>
+    <div id="textBody"></div>
 </form>
 <p></p>
 <form method="get" id="article-2" style="display:none">
@@ -32,7 +32,7 @@
 </form>
 <form method="get" id="article-3" style="display:none">
     <h1 id="title3"></h1>
-    <p id="textBody3"></p>
+    <div id="textBody3"></div>
 </form>
 <form method="post" id="rank" style="display:none">
     <h1> Enter an article number in each box</h1>
@@ -43,9 +43,14 @@
     <input type="text" id="fourth" name="fourth" style="margin-left: 90px"><br><br>
     <label for="fifth"> Worst article:</label>
     <input type="text" id="fifth" name="fifth"><br><br>
-    <input type="submit" value="Submit">
+    <input type="button" value="Submit" onclick="submitRanking()">
+</form>
+<form method="get" id="rankSubmit" style="display:none">
+    <h3> Your submitted ranking of articles:</h3>
+    <div id="ranks"></div>
 </form>
 <script type="application/javascript">
+
     let article1 = new Request('article-1.json');
     let article2 = new Request('article-2.json');
     let article3 = new Request('article-3.json');
@@ -70,14 +75,17 @@
                     var height = data1.body[i].model.height;
                     var width = data1.body[i].model.width;
                     var alt = data1.body[i].model.altText;
-                    textBody1 += '<img src="'+img+'" width="'+width+'" height="'+height+'" alt="'+alt+'"/>';
+                    textBody1 += '<img src="'+img+'" width="'+width+'" height="'+height+'" alt="'+alt+'"/>'; // Adds image to display
                 }
                 if (data1.body[i].type == 'list'){
                     if (typeof data1.body[i].model.items !== 'undefined'){
+                        textBody1 += '<ul>';
                         for (var x=0; x < data1.body[i].model.items.length;x++){
-                        var items = '';
-                        items += data1.body[i].model.items[x];
-                        console.log(items);}
+                        var item = '';
+                        item = data1.body[i].model.items[x];
+                        textBody1 += '<li>'+item+'</li>';
+                        }
+                        textBody1 += '</ul>'
                     }
                 }
             }
@@ -110,6 +118,17 @@
                     var alt= data1.body[i].model.altText;
                     textBody2 += '<img src="'+img+'" width="'+width+'" height="'+height+'" alt="'+alt+'"/>';
                 }
+                if (data1.body[i].type == 'list'){
+                    if (typeof data1.body[i].model.items !== 'undefined'){
+                        textBody1 += '<ul>';
+                        for (var x=0; x < data1.body[i].model.items.length;x++){
+                            var item = '';
+                            item = data1.body[i].model.items[x];
+                            textBody1 += '<li>'+item+'</li>';
+                        }
+                        textBody1 += '</ul>'
+                    }
+                }
                 }
             document.getElementById('title2').innerHTML = title2;
             document.getElementById('textBody2').innerHTML = textBody2;
@@ -140,6 +159,17 @@
                     var alt= data1.body[i].model.altText;
                     textBody3 += '<img src="'+img+'" width="'+width+'" height="'+height+'" alt="'+alt+'"/>';
                 }
+                if (data1.body[i].type == 'list'){ // Displays any lists from the file
+                    if (typeof data1.body[i].model.items !== 'undefined'){
+                        textBody1 += '<ul>';
+                        for (var x=0; x < data1.body[i].model.items.length;x++){
+                            var item = '';
+                            item = data1.body[i].model.items[x];
+                            textBody1 += '<li>'+item+'</li>';
+                        }
+                        textBody1 += '</ul>'
+                    }
+                }
             }
             document.getElementById('title3').innerHTML = title3;
             document.getElementById('textBody3').innerHTML = textBody3;
@@ -148,6 +178,8 @@
         .catch(function (err) {
             console.log('error: ' + err);
         });
+
+
     function showArticle1(){ // Toggles the display of the first article
         var x = document.getElementById("article-1");
         x.style.display = "block";
@@ -187,6 +219,19 @@
         y.style.display = "none";
         var z = document.getElementById("article-3");
         z.style.display = "none";
+    }
+    function submitRanking() { // Displays the submitted ranking order
+        var x = document.getElementById("rankSubmit");
+        x.style.display= "block";
+        var item ='';
+        item += '<ul>';
+        item += '<li>'+document.getElementById('first').value+'</li>';
+        item += '<li>'+document.getElementById('second').value+'</li>';
+        item += '<li>'+document.getElementById('third').value+'</li>';
+        item += '<li>'+document.getElementById('fourth').value+'</li>';
+        item += '<li>'+document.getElementById('fifth').value+'</li>';
+        item += '</ul>';
+        document.getElementById('ranks').innerHTML = item ;
     }
 </script>
 </body>
