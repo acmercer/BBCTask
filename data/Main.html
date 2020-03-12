@@ -1,224 +1,113 @@
 <!DOCTYPE html>
 <html lang="en">
-<style>
-    button {
-        font-size: 24px;
-        padding: 10px 24px;
-        float:left;
-        background-color: lightsteelblue;
-        border-color: black;
-    }
-</style>
 <head>
     <meta charset="UTF-8">
-    <title> News Article</title>
+    <title> News Articles</title>
+    <link href="StyleSheet.css" rel="stylesheet">
 </head>
 
 <body>
-<div>
-    <button onclick="showArticle1()">Article 1</button>
-    <button onclick="showArticle2()">Article 2</button>
-    <button onclick="showArticle3()">Article 3</button>
-    <button onclick="ranking()">Rank Articles</button>
-</div> <br /> <br />
-<form method="get" id="article-1" style="display:none">
-    <h1 id="title"></h1>
-    <div id="textBody"></div>
-</form>
-<p></p>
-<form method="get" id="article-2" style="display:none">
-    <h1 id="title2"></h1>
-    <div id="textBody2"></div>
-</form>
-<form method="get" id="article-3" style="display:none">
-    <h1 id="title3"></h1>
-    <div id="textBody3"></div>
-</form>
-<form method="post" id="rank" style="display:none">
-    <h1> Enter an article number in each box</h1>
-    <label for="first">Best article:</label>
-    <input type="text" id="first" name="first" style="margin-left: 10px"><br><br>
-    <input type="text" id="second" name="second" style="margin-left: 90px"><br><br>
-    <input type="text" id="third" name="third" style="margin-left: 90px"><br><br>
-    <input type="text" id="fourth" name="fourth" style="margin-left: 90px"><br><br>
-    <label for="fifth"> Worst article:</label>
-    <input type="text" id="fifth" name="fifth"><br><br>
-    <input type="button" value="Submit" onclick="submitRanking()">
-</form>
-<form method="get" id="rankSubmit" style="display:none">
-    <h3> Your submitted ranking of articles:</h3>
-    <div id="ranks"></div>
-</form>
+<div class="btn-group" >
+    <button onclick="whichArticle('article1')">Article 1</button>
+    <button onclick="whichArticle('article2')">Article 2</button>
+    <button onclick="whichArticle('article3')">Article 3</button>
+    <button onclick="whichArticle('article4')">Article 4</button>
+    <button onclick="whichArticle('article5')">Article 5</button>
+    <button onclick="ranking()">Ranking</button>
+</div>
+    <form method="get" id="article" style="display:none" class="article">
+        <h1 id="title"></h1>
+        <div id="textBody"></div>
+    </form>
+
+    <form method="post" id="rank" style="display:none" class="ranking">
+        <h1> Enter an article number in each box</h1>
+        <label for="first">Best article:</label>
+        <input type="text" id="first" name="first" style="margin-left: 10px"><br><br>
+        <input type="text" id="second" name="second" style="margin-left: 90px"><br><br>
+        <input type="text" id="third" name="third" style="margin-left: 90px"><br><br>
+        <input type="text" id="fourth" name="fourth" style="margin-left: 90px"><br><br>
+        <label for="fifth"> Worst article:</label>
+        <input type="text" id="fifth" name="fifth"><br><br>
+        <input type="button" value="Submit" onclick="submitRanking()">
+    </form>
+
+    <form method="get" id="rankSubmit" style="display:none" class="rankingFinal">
+        <h3> Your submitted ranking of articles:</h3>
+        <div id="ranks"></div>
+    </form>
+
+
 <script type="application/javascript">
 
-    let article1 = new Request('article-1.json');
-    let article2 = new Request('article-2.json');
-    let article3 = new Request('article-3.json');
-    var textBody1 ='', textBody2='', textBody3='';
-    fetch(article1)
-        .then(function(response){
-            return response.json();
-        })
-        .then (function(data1){
-            var title = data1.title; // Gets the articles title
-            for(var i =0; i < data1.body.length;i++){
-                if (data1.body[i].type == 'heading'){
-                    if (typeof data1.body[i].model.text !== 'undefined') {
-                        textBody1 += '<h3>' + data1.body[i].model.text + '</h3>';
-                    }}
-                if (data1.body[i].type == 'paragraph'){
-                if (typeof data1.body[i].model.text !== 'undefined') {
-                    textBody1 += '<p>' + data1.body[i].model.text + '</p>'; // Adds all the text to one string
-                }}
-                if (data1.body[i].type == 'image'){ // Gathers the image information
-                    var img = data1.body[i].model.url;
-                    var height = data1.body[i].model.height;
-                    var width = data1.body[i].model.width;
-                    var alt = data1.body[i].model.altText;
-                    textBody1 += '<img src="'+img+'" width="'+width+'" height="'+height+'" alt="'+alt+'"/>'; // Adds image to display
-                }
-                if (data1.body[i].type == 'list'){
-                    if (typeof data1.body[i].model.items !== 'undefined'){
-                        textBody1 += '<ul>';
-                        for (var x=0; x < data1.body[i].model.items.length;x++){
-                        var item = '';
-                        item = data1.body[i].model.items[x];
-                        textBody1 += '<li>'+item+'</li>';
-                        }
-                        textBody1 += '</ul>'
-                    }
-                }
-            }
-            document.getElementById('title').innerHTML = title;
-            document.getElementById('textBody').innerHTML = textBody1;
-        })
-        .catch(function (err) {
-            console.log('error: ' + err);
-        });
-    fetch(article2)
-        .then(function(response){
-            return response.json();
-        })
-        .then (function(data1){
-            var title2 = data1.title;
-            for(var i =0; i < data1.body.length;i++){
-                if (data1.body[i].type == 'heading'){
-                    if (typeof data1.body[i].model.text !== 'undefined') {
-                        textBody2 += '<h3>' + data1.body[i].model.text + '</h3>';
-                    }}
-                if (data1.body[i].type == 'paragraph'){
-                    if (typeof data1.body[i].model.text !== 'undefined') {
-                        textBody2 += '<p>' + data1.body[i].model.text + '</p>';
+    function whichArticle(pick){
+        var x = document.getElementById("article");
+        x.style.display = "block";
+        var w = document.getElementById("rank");
+        w.style.display = "none";
+        if (pick == 'article1'){
+            window.choice = new Request('article-1.json');
+        }
+        if (pick=='article2'){
+            window.choice = new Request('article-2.json');
+        }
+        if (pick=='article3'){
+            window.choice = new Request('article-3.json');
+        }
+        if (pick=='article4'){
+            window.choice = new Request('article-4.json');
+        }
+        if (pick=='article5'){
+            window.choice = new Request('article-5.json');
+        }
 
+        fetch(window.choice)
+            .then(function(response){
+                return response.json();
+            })
+            .then (function(data1){
+                var textBody1 = '';
+                var title = data1.title; // Gets the articles title
+                for(var i =0; i < data1.body.length;i++){
+                    if (data1.body[i].type == 'heading'){ // Displays the heading
+                        if (typeof data1.body[i].model.text !== 'undefined') {
+                            textBody1 += '<h3>' + data1.body[i].model.text + '</h3>';
+                        }}
+                    if (data1.body[i].type == 'paragraph'){
+                    if (typeof data1.body[i].model.text !== 'undefined') {
+                        textBody1 += '<p>' + data1.body[i].model.text + '</p>'; // Adds all the text to one string
                     }}
-                if (data1.body[i].type == 'image'){
-                    var img = data1.body[i].model.url;
-                    var height = data1.body[i].model.height;
-                    var width = data1.body[i].model.width;
-                    var alt= data1.body[i].model.altText;
-                    textBody2 += '<img src="'+img+'" width="'+width+'" height="'+height+'" alt="'+alt+'"/>';
-                }
-                if (data1.body[i].type == 'list'){
-                    if (typeof data1.body[i].model.items !== 'undefined'){
-                        textBody1 += '<ul>';
-                        for (var x=0; x < data1.body[i].model.items.length;x++){
+                    if (data1.body[i].type == 'image'){ // Gathers the image information
+                        var img = data1.body[i].model.url;
+                        var height = (data1.body[i].model.height)/2;
+                        var width = (data1.body[i].model.width)/2;
+                        var alt = data1.body[i].model.altText;
+                        textBody1 += '<img src="'+img+'" width="'+width+'" height="'+height+'" alt="'+alt+'"/>'; // Adds image to display
+                    }
+                    if (data1.body[i].type == 'list'){ // Displays all list items
+                        if (typeof data1.body[i].model.items !== 'undefined'){
+                            textBody1 += '<ul>';
+                            for (var x=0; x < data1.body[i].model.items.length;x++){
                             var item = '';
                             item = data1.body[i].model.items[x];
                             textBody1 += '<li>'+item+'</li>';
+                            }
+                            textBody1 += '</ul>'
                         }
-                        textBody1 += '</ul>'
                     }
                 }
-                }
-            document.getElementById('title2').innerHTML = title2;
-            document.getElementById('textBody2').innerHTML = textBody2;
-        })
-        .catch(function (err) {
-            console.log('error: ' + err);
-        });
-    fetch(article3)
-        .then(function(response){
-            return response.json();
-        })
-        .then (function(data1){
-            var title3 = data1.title;
-            for(var i =0; i < data1.body.length;i++){
-                if (data1.body[i].type == 'heading'){
-                    if (typeof data1.body[i].model.text !== 'undefined') {
-                        textBody3 += '<h3>' + data1.body[i].model.text + '</h3>';
-                    }}
-                if (data1.body[i].type == 'paragraph'){
-                    if (typeof data1.body[i].model.text !== 'undefined') {
-                        textBody3 += '<p>' + data1.body[i].model.text + '</p>';
-                    }
-                }
-                if (data1.body[i].type == 'image'){
-                    var img = data1.body[i].model.url;
-                    var height = data1.body[i].model.height;
-                    var width = data1.body[i].model.width;
-                    var alt= data1.body[i].model.altText;
-                    textBody3 += '<img src="'+img+'" width="'+width+'" height="'+height+'" alt="'+alt+'"/>';
-                }
-                if (data1.body[i].type == 'list'){ // Displays any lists from the file
-                    if (typeof data1.body[i].model.items !== 'undefined'){
-                        textBody1 += '<ul>';
-                        for (var x=0; x < data1.body[i].model.items.length;x++){
-                            var item = '';
-                            item = data1.body[i].model.items[x];
-                            textBody1 += '<li>'+item+'</li>';
-                        }
-                        textBody1 += '</ul>'
-                    }
-                }
-            }
-            document.getElementById('title3').innerHTML = title3;
-            document.getElementById('textBody3').innerHTML = textBody3;
-
-        })
-        .catch(function (err) {
-            console.log('error: ' + err);
-        });
-
-
-    function showArticle1(){ // Toggles the display of the first article
-        var x = document.getElementById("article-1");
-        x.style.display = "block";
-        var y = document.getElementById("article-2"); // Hides display of others
-        y.style.display = "none";
-        var z = document.getElementById("article-3");
-        z.style.display = "none";
-        var w = document.getElementById("rank");
-        w.style.display = "none";
-    }
-    function showArticle2(){ // Displays the second article
-        var x = document.getElementById("article-2");
-        x.style.display = "block";
-        var y = document.getElementById("article-1"); // Hides display of others
-        y.style.display = "none";
-        var z = document.getElementById("article-3");
-        z.style.display = "none";
-        var w = document.getElementById("rank");
-        w.style.display = "none";
-    }
-    function showArticle3(){ // Displays third article
-        var x = document.getElementById("article-3");
-        x.style.display = "block";
-        var w = document.getElementById("rank"); // Hides display of others
-        w.style.display = "none";
-        var y = document.getElementById("article-1");
-        y.style.display = "none";
-        var z = document.getElementById("article-2");
-        z.style.display = "none";
+                document.getElementById('title').innerHTML = title;
+                document.getElementById('textBody').innerHTML = textBody1;
+            })
+            .catch(function (err) {
+                console.log('error: ' + err);
+            });
     }
     function ranking(){ // Displays ranking screen
         var w = document.getElementById("rank");
         w.style.display = "block";
-        var x = document.getElementById("article-1"); // Hides display of others
+        var x = document.getElementById("article");
         x.style.display = "none";
-        var y = document.getElementById("article-2");
-        y.style.display = "none";
-        var z = document.getElementById("article-3");
-        z.style.display = "none";
     }
     function submitRanking() { // Displays the submitted ranking order
         var x = document.getElementById("rankSubmit");

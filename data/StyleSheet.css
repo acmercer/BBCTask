@@ -1,0 +1,50 @@
+.btn-group {
+    float: left;
+    border-color: black;
+    width : 150px;
+    height :100%;
+    background-color: #00183f;
+    border-right: 1px solid black;
+    display:inline-block;
+    position:fixed;
+}
+.btn-group button {
+    background-color: #00183f;
+    width:100%;
+    font-size: medium;
+    padding: 10px 0px;
+    color:white;
+    border:none;
+}
+.btn-group button:hover{
+    background-color: oldlace;
+    color:black;
+}
+.btn-group button:focus{
+    outline:0;
+    background-color: oldlace;
+    color:black;
+}
+.article {
+    border: 1px solid #6a6a6a;
+    margin-left: 150px;
+    padding:10px;
+    display:inline-block;
+    background-color: white;
+}
+.ranking{
+    border: 1px solid #6a6a6a;
+    margin-left: 150px;
+    padding:10px;
+    background-color: white;
+}
+.rankingFinal{
+    border: 1px solid #6a6a6a;
+    margin-left: 150px;
+    padding:10px;
+    background-color: white;
+}
+html, body{
+    background-color: slategrey;
+    padding:0;
+}
