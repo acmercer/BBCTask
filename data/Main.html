@@ -23,12 +23,47 @@
     <form method="post" id="rank" style="display:none" class="ranking">
         <h1> Enter an article number in each box</h1>
         <label for="first">Best article:</label>
-        <input type="text" id="first" name="first" style="margin-left: 10px"><br><br>
-        <input type="text" id="second" name="second" style="margin-left: 90px"><br><br>
-        <input type="text" id="third" name="third" style="margin-left: 90px"><br><br>
-        <input type="text" id="fourth" name="fourth" style="margin-left: 90px"><br><br>
+        <select id="first" style="margin-left: 10px">
+            <option value="Article 1"> Article 1</option>
+            <option value="Article 2"> Article 2</option>
+            <option value="Article 3"> Article 3</option>
+            <option value="Article 4"> Article 4</option>
+            <option value="Article 5"> Article 5</option>
+        </select>
+            <br><br>
+        <select id="second" style="margin-left: 90px">
+            <option value="Article 1"> Article 1</option>
+            <option value="Article 2"> Article 2</option>
+            <option value="Article 3"> Article 3</option>
+            <option value="Article 4"> Article 4</option>
+            <option value="Article 5"> Article 5</option>
+        </select>
+        <br><br>
+        <select id="third" style="margin-left: 90px">
+            <option value="Article 1"> Article 1</option>
+            <option value="Article 2"> Article 2</option>
+            <option value="Article 3"> Article 3</option>
+            <option value="Article 4"> Article 4</option>
+            <option value="Article 5"> Article 5</option>
+        </select>
+        <br><br>
+        <select id="fourth" style="margin-left: 90px">
+            <option value="Article 1"> Article 1</option>
+            <option value="Article 2"> Article 2</option>
+            <option value="Article 3"> Article 3</option>
+            <option value="Article 4"> Article 4</option>
+            <option value="Article 5"> Article 5</option>
+        </select>
+        <br><br>
         <label for="fifth"> Worst article:</label>
-        <input type="text" id="fifth" name="fifth"><br><br>
+        <select id="fifth">
+            <option value="Article 1"> Article 1</option>
+            <option value="Article 2"> Article 2</option>
+            <option value="Article 3"> Article 3</option>
+            <option value="Article 4"> Article 4</option>
+            <option value="Article 5"> Article 5</option>
+        </select>
+        <br><br>
         <input type="button" value="Submit" onclick="submitRanking()">
     </form>
 
@@ -114,6 +149,7 @@
         x.style.display= "block";
         var item ='';
         item += '<ul>';
+
         item += '<li>'+document.getElementById('first').value+'</li>';
         item += '<li>'+document.getElementById('second').value+'</li>';
         item += '<li>'+document.getElementById('third').value+'</li>';
