@@ -6,7 +6,8 @@
     <link href="StyleSheet.css" rel="stylesheet">
 </head>
 
-<body>
+<body onload="whichArticle('article1')">
+<div class="topBar"> ARTICLE DISPLAY </div>
 <div class="btn-group" >
     <button onclick="whichArticle('article1')">Article 1</button>
     <button onclick="whichArticle('article2')">Article 2</button>
@@ -17,7 +18,7 @@
 </div>
     <form method="get" id="article" style="display:none" class="article">
         <h1 id="title"></h1>
-        <div id="textBody"></div>
+        <div id="textBody" style="padding:10px"></div>
     </form>
 
     <form method="post" id="rank" style="display:none" class="ranking">
@@ -31,7 +32,7 @@
             <option value="Article 5"> Article 5</option>
         </select>
             <br><br>
-        <select id="second" style="margin-left: 90px">
+        <select id="second" style="margin-left: 100px">
             <option value="Article 1"> Article 1</option>
             <option value="Article 2"> Article 2</option>
             <option value="Article 3"> Article 3</option>
@@ -39,7 +40,7 @@
             <option value="Article 5"> Article 5</option>
         </select>
         <br><br>
-        <select id="third" style="margin-left: 90px">
+        <select id="third" style="margin-left: 100px">
             <option value="Article 1"> Article 1</option>
             <option value="Article 2"> Article 2</option>
             <option value="Article 3"> Article 3</option>
@@ -47,7 +48,7 @@
             <option value="Article 5"> Article 5</option>
         </select>
         <br><br>
-        <select id="fourth" style="margin-left: 90px">
+        <select id="fourth" style="margin-left: 100px">
             <option value="Article 1"> Article 1</option>
             <option value="Article 2"> Article 2</option>
             <option value="Article 3"> Article 3</option>
@@ -80,7 +81,7 @@
         x.style.display = "block";
         var w = document.getElementById("rank");
         w.style.display = "none";
-        if (pick == 'article1'){
+        if (pick == 'article1'){ //
             window.choice = new Request('article-1.json');
         }
         if (pick=='article2'){
