@@ -76,7 +76,7 @@
 
 
 <script type="application/javascript">
-    function sizing(){
+    function sizing(){ // Increases all text sizes
         document.getElementById("article").style.fontSize = "25px";
         document.getElementById("rank").style.fontSize = "25px";
         document.getElementById("rankSubmit").style.fontSize = "25px";
@@ -89,7 +89,7 @@
         document.getElementById("fourth").style.marginLeft = "150px";
         document.getElementById("fifth").style.fontSize = "25px";
     }
-    function whichArticle(pick){
+    function whichArticle(pick){ // Based on which button is clicked the correct article is selected
         var x = document.getElementById("article");
         x.style.display = "block";
         var w = document.getElementById("rank");
@@ -110,7 +110,7 @@
             window.choice = new Request('article-5.json');
         }
 
-        fetch(window.choice)
+        fetch(window.choice) // Fetches the information from the .json file
             .then(function(response){
                 return response.json();
             })
@@ -145,7 +145,7 @@
                         }
                     }
                 }
-                document.getElementById('title').innerHTML = title;
+                document.getElementById('title').innerHTML = title; // Sends the data back to the div
                 document.getElementById('textBody').innerHTML = textBody1;
             })
             .catch(function (err) {
