@@ -15,6 +15,7 @@
     <button onclick="whichArticle('article4')">Article 4</button>
     <button onclick="whichArticle('article5')">Article 5</button>
     <button onclick="ranking()">Ranking</button>
+    <button onclick="sizing()">Increase Text Size</button>
 </div>
     <form method="get" id="article" style="display:none" class="article">
         <h1 id="title"></h1>
@@ -75,7 +76,19 @@
 
 
 <script type="application/javascript">
-
+    function sizing(){
+        document.getElementById("article").style.fontSize = "25px";
+        document.getElementById("rank").style.fontSize = "25px";
+        document.getElementById("rankSubmit").style.fontSize = "25px";
+        document.getElementById("first").style.fontSize = "25px";
+        document.getElementById("second").style.fontSize = "25px";
+        document.getElementById("second").style.marginLeft = "150px";
+        document.getElementById("third").style.fontSize = "25px";
+        document.getElementById("third").style.marginLeft = "150px";
+        document.getElementById("fourth").style.fontSize = "25px";
+        document.getElementById("fourth").style.marginLeft = "150px";
+        document.getElementById("fifth").style.fontSize = "25px";
+    }
     function whichArticle(pick){
         var x = document.getElementById("article");
         x.style.display = "block";
